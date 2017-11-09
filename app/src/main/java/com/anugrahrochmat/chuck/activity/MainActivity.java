@@ -134,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         //Closing drawer on item click
         drawer.closeDrawers();
 
-        // refresh toolbar menu
-        invalidateOptionsMenu();
     }
 
     private Fragment getHomeFragment() {
@@ -200,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         return true;
                     default:
                         navItemIndex = 0;
+                        CURRENT_TAG = TAG_HOME;
                 }
 
                 //Checking if the item is in checked state or not, if not make it in checked state

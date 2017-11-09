@@ -25,4 +25,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="random_joke">Random Jokes</string>
+    <string name="generate_button">Generate Jokes</string>
+    <string name="error_message">Cannot connect to the internet. Please check your internet connection.</string>
 </resources>

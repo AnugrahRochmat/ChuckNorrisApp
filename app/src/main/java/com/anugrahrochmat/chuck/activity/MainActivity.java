@@ -22,13 +22,23 @@ import com.anugrahrochmat.chuck.fragment.HomeFragment;
 import com.anugrahrochmat.chuck.fragment.SearchFragment;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, CategoriesFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
-    private NavigationView navigationView;
-    private DrawerLayout drawer;
     private View navHeader;
     private ImageView imgProfile;
-    private Toolbar toolbar;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -51,13 +61,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         mHandler = new Handler();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);

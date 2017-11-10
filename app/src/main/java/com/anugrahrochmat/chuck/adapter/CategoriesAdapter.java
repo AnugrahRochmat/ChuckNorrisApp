@@ -6,9 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.anugrahrochmat.chuck.R;
+import com.anugrahrochmat.chuck.view.CapitalizedTextView;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     private Context context;
 
     public class CategoriesViewHolder extends RecyclerView.ViewHolder {
-        public final TextView catName;
+        public final CapitalizedTextView catName;
 
         public CategoriesViewHolder(View view) {
             super(view);

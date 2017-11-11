@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_margin="@dimen/margin_padding_16"
-        android:textSize="@dimen/text_size_18"
         android:textStyle="bold"
-        tools:text="@string/app_name"/>
+        tools:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
 </android.support.v7.widget.CardView>

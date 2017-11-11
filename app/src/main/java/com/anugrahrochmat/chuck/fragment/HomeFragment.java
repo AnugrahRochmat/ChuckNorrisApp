@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.activity.MainActivity;
-import com.anugrahrochmat.chuck.model.RandomJoke;
+import com.anugrahrochmat.chuck.model.Result;
 import com.anugrahrochmat.chuck.rest.ApiClient;
 import com.anugrahrochmat.chuck.rest.ApiInterface;
 
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     Button generateButton;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private RandomJoke randomJoke;
+    private Result randomJoke;
 
 
     public HomeFragment() {
@@ -118,18 +118,19 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class fetchRandomJoke extends AsyncTask<Void, Void, RandomJoke> {
+    public class fetchRandomJoke extends AsyncTask<Void, Void, Result> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            hideJoke();
             showProgressBar();
         }
 
         @Override
-        protected RandomJoke doInBackground(Void... voids) {
+        protected Result doInBackground(Void... voids) {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-            Call<RandomJoke> call = apiService.getRandomJoke();
+            Call<Result> call = apiService.getRandomJoke();
 
             try {
                 randomJoke = call.execute().body();
@@ -141,8 +142,9 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(RandomJoke randomJoke) {
+        protected void onPostExecute(Result randomJoke) {
             hideProgressbar();
+            showJoke();
             if (randomJoke != null){
                 randomJokeView.setText(randomJoke.getValue());
             } else {
@@ -153,6 +155,15 @@ public class HomeFragment extends Fragment {
 
     private void loadRandomJoke(){
         new fetchRandomJoke().execute();
+    }
+
+    private void showJoke() {
+        randomJokeView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideJoke(){
+        randomJokeView.setText("");
+        randomJokeView.setVisibility(View.INVISIBLE);
     }
 
     private void showProgressBar(){

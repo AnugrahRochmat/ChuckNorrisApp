@@ -3,7 +3,7 @@ package com.anugrahrochmat.chuck.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RandomJoke {
+public class Result {
 
     @SerializedName("category")
     @Expose

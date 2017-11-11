@@ -4,9 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.anugrahrochmat.chuck.fragment.CategoriesFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/categories_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/categories_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/progress_width_height"
+            android:layout_height="@dimen/progress_width_height"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
 </FrameLayout>

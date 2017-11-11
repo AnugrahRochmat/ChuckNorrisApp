@@ -130,6 +130,7 @@ public class EachCategoryActivity extends AppCompatActivity {
     }
 
     private void hideJoke(){
+        randomJokeView.setText("");
         randomJokeView.setVisibility(View.INVISIBLE);
     }
 

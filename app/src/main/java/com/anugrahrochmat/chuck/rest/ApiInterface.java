@@ -1,7 +1,8 @@
 package com.anugrahrochmat.chuck.rest;
 
 import com.anugrahrochmat.chuck.model.RandomCategory;
-import com.anugrahrochmat.chuck.model.RandomJoke;
+import com.anugrahrochmat.chuck.model.Result;
+import com.anugrahrochmat.chuck.model.SearchResult;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET("random")
-    Call<RandomJoke> getRandomJoke();
+    Call<Result> getRandomJoke();
 
     @GET("random")
     Call<RandomCategory> getRandomCategory(@Query("category") String category);
@@ -20,4 +21,6 @@ public interface ApiInterface {
     @GET("categories")
     Call<ArrayList<String>> getCategoryList();
 
+    @GET("search")
+    Call<SearchResult> getSearchQuery(@Query("query") String query);
 }

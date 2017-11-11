@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.activity.MainActivity;
@@ -31,6 +32,9 @@ public class CategoriesFragment extends Fragment {
 
     @BindView(R.id.categories_recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private CategoriesAdapter categoriesAdapter;
     private OnFragmentInteractionListener mListener;
@@ -120,6 +124,7 @@ public class CategoriesFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            showProgressBar();
         }
 
         @Override
@@ -138,7 +143,16 @@ public class CategoriesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<String> categories) {
+            hideProgressbar();
             categoriesAdapter.setCategories(categories);
         }
+    }
+
+    private void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressbar(){
+        progressBar.setVisibility(View.GONE);
     }
 }

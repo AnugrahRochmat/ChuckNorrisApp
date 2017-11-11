@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         selectNavMenu();
 
         // set toolbar title
-        setToolbarTitle();
+        setToolbarTitle("");
 
         // if user select the current navigation menu again, don't do anything
         // just close the navigation drawer
@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 HomeFragment homeFragment = new HomeFragment();
                 return homeFragment;
             case 1:
-                // photos
+                // categories
                 CategoriesFragment categoriesFragment = new CategoriesFragment();
                 return categoriesFragment;
             case 2:
-                // movies fragment
+                // search
                 SearchFragment searchFragment = new SearchFragment();
                 return searchFragment;
             default:
@@ -164,8 +164,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
     }
 
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+    public void setToolbarTitle(String title) {
+        if (title.isEmpty()) {
+            getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        } else {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
     private void selectNavMenu() {

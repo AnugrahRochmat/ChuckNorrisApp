@@ -100,6 +100,7 @@ public class CategoriesFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    // initialize recycler view
     public void init(){
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
@@ -111,6 +112,9 @@ public class CategoriesFragment extends Fragment {
         new FetchCategoriesTask().execute();
     }
 
+    /**
+     * FetchCategories from API
+     */
     public class FetchCategoriesTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
         @Override

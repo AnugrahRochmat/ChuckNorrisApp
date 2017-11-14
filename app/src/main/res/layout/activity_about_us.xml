@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context="com.anugrahrochmat.chuck.activity.AboutUsActivity">
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_padding_16">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/about_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_18"
+                    android:paddingBottom="@dimen/margin_padding_64"
+                    android:text="@string/about_us" />
+
+                <TextView
+                    android:id="@+id/source_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_18"
+                    android:paddingBottom="@dimen/margin_padding_32"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:text="@string/source_code"/>
+
+                <TextView
+                    android:id="@+id/api_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_18"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:text="@string/api_name"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 </android.support.constraint.ConstraintLayout>

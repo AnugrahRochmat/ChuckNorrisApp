@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.activity.MainActivity;
-import com.anugrahrochmat.chuck.model.Result;
+import com.anugrahrochmat.chuck.model.RandomCategory;
 import com.anugrahrochmat.chuck.rest.ApiClient;
 import com.anugrahrochmat.chuck.rest.ApiInterface;
 
@@ -27,6 +27,10 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 public class HomeFragment extends Fragment {
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String CATEGORY_NAME = "CATEGORY_NAME";
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,16 +47,39 @@ public class HomeFragment extends Fragment {
     Button generateButton;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private Result randomJoke;
-
+    private RandomCategory randomJoke;
+    private String categoryName;
+    private static final String DEF_TITLE = "Home";
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param catName Parameter 1.
+     * @return A new instance of fragment BlankFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static HomeFragment newInstance(String catName) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(CATEGORY_NAME, catName);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            categoryName = getArguments().getString(CATEGORY_NAME);
+            setUppercaseforTitleBar(categoryName);
+        } else {
+            setUppercaseforTitleBar(DEF_TITLE);
+        }
     }
 
     @Override
@@ -118,7 +145,7 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class fetchRandomJoke extends AsyncTask<Void, Void, Result> {
+    public class fetchRandomJoke extends AsyncTask<Void, Void, RandomCategory> {
 
         @Override
         protected void onPreExecute() {
@@ -128,9 +155,9 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected Result doInBackground(Void... voids) {
+        protected RandomCategory doInBackground(Void... voids) {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-            Call<Result> call = apiService.getRandomJoke();
+            Call<RandomCategory> call = apiService.getRandomCategory(categoryName);
 
             try {
                 randomJoke = call.execute().body();
@@ -142,7 +169,7 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Result randomJoke) {
+        protected void onPostExecute(RandomCategory randomJoke) {
             hideProgressbar();
             showJoke();
             if (randomJoke != null){
@@ -176,5 +203,12 @@ public class HomeFragment extends Fragment {
 
     private void showErrorMessage(){
         errorMessage.setVisibility(View.VISIBLE);
+    }
+
+    public void setUppercaseforTitleBar(String text) {
+        if (text.length() > 0) {
+            text = String.valueOf(text.charAt(0)).toUpperCase() + text.subSequence(1, text.length());
+        }
+        ((MainActivity) getActivity()).setToolbarTitle(text);
     }
 }

@@ -2,14 +2,14 @@ package com.anugrahrochmat.chuck.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.anugrahrochmat.chuck.R;
-import com.anugrahrochmat.chuck.activity.EachCategoryActivity;
+import com.anugrahrochmat.chuck.fragment.HomeFragment;
 import com.anugrahrochmat.chuck.view.CapitalizedTextView;
 
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         public CategoriesViewHolder(View view) {
             super(view);
             catName = view.findViewById(R.id.category_name);
+
             view.setOnClickListener(this);
         }
 
@@ -32,10 +33,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         public void onClick(View view) {
             String category = categories.get(getAdapterPosition());
 
-            Intent intentToEachCategoryActivity = new Intent(view.getContext(), EachCategoryActivity.class);
-            intentToEachCategoryActivity.putExtra("category", category);
-
-            view.getContext().startActivity(intentToEachCategoryActivity);
+            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+            HomeFragment fragment = HomeFragment.newInstance(category);
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commitAllowingStateLoss();
+//            Intent intentToEachCategoryActivity = new Intent(view.getContext(), EachCategoryActivity.class);
+//            intentToEachCategoryActivity.putExtra("category", category);
+//
+//            view.getContext().startActivity(intentToEachCategoryActivity);
         }
     }
 

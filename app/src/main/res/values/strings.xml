@@ -28,4 +28,8 @@
     <string name="random_joke">Random Jokes</string>
     <string name="generate_button">Generate Jokes</string>
     <string name="error_message">Cannot connect to the internet. Please check your internet connection.</string>
+    <string name="about_us">I found this Chuck Norris Api and thinking to play with. While i\'m still learning and keen to improve my skill as an Android Developer so i make this APP. </string>
+    <string name="source_code">Source Code: <a href="https://github.com/AnugrahRochmat/ChuckNorrisApp">https://github.com/AnugrahRochmat/ChuckNorrisApp</a></string>
+    <string name="source"></string>
+    <string name="api_name">Api: <a href="https://api.chucknorris.io"> https://api.chucknorris.io</a> </string>
 </resources>

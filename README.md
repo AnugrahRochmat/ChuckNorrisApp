@@ -6,4 +6,5 @@ The idea is i'm trying to utilize all the thing that i can get from this API and
 
 ## Version 1.0
 Utilizes all the thing i can get from API.
+
 In the future i would like to add slider to pick background image for the jokes.

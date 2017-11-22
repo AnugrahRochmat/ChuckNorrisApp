@@ -36,10 +36,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             HomeFragment fragment = HomeFragment.newInstance(category);
             activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commitAllowingStateLoss();
-//            Intent intentToEachCategoryActivity = new Intent(view.getContext(), EachCategoryActivity.class);
-//            intentToEachCategoryActivity.putExtra("category", category);
-//
-//            view.getContext().startActivity(intentToEachCategoryActivity);
         }
     }
 

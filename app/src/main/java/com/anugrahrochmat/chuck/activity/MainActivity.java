@@ -25,7 +25,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, CategoriesFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        CategoriesFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener{
 
     private View navHeader;
     private ImageView imgProfile;
@@ -265,7 +266,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 return;
             }
         }
-
         super.onBackPressed();
     }
 

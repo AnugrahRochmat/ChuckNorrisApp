@@ -1,6 +1,7 @@
 package com.anugrahrochmat.chuck.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,11 +9,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.activity.MainActivity;
@@ -74,12 +79,43 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             categoryName = getArguments().getString(CATEGORY_NAME);
             setUppercaseforTitleBar(categoryName);
         } else {
             setUppercaseforTitleBar(DEF_TITLE);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.share_fav_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.share_button:
+                // Share
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setType("text/plain");
+                String shareText = "Did you know \"" + randomJoke.getValue() + "\"";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                startActivity(Intent.createChooser(shareIntent, "Share This With..."));
+                break;
+            case R.id.favourite_button:
+                // Favourite
+                item.setIcon(R.drawable.ic_favorite_black_24dp);
+                Toast.makeText(getActivity(), "Soon Favourite feature!", Toast.LENGTH_LONG).show();
+            default:
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

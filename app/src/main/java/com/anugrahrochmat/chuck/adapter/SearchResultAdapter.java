@@ -1,10 +1,12 @@
 package com.anugrahrochmat.chuck.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.anugrahrochmat.chuck.R;
@@ -19,10 +21,26 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     public class SearchResultViewHolder extends RecyclerView.ViewHolder {
         public final TextView searchResult;
+        public ImageButton shareBtn;
+        public ImageButton favBtn;
 
         public SearchResultViewHolder(View view){
             super(view);
             searchResult = view.findViewById(R.id.search_result);
+            shareBtn = view.findViewById(R.id.share_button);
+            favBtn = view.findViewById(R.id.favourite_button);
+
+            shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    shareIntent.setType("text/plain");
+                    String shareText = "Did you know \"" + results.get(getAdapterPosition()).getValue() + "\"";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                    context.startActivity(Intent.createChooser(shareIntent, "Share This With..."));
+                }
+            });
         }
     }
 

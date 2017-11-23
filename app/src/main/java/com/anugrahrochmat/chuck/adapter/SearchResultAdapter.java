@@ -20,15 +20,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private Context context;
 
     public class SearchResultViewHolder extends RecyclerView.ViewHolder {
-        public final TextView searchResult;
-        public ImageButton shareBtn;
-        public ImageButton favBtn;
+        public final TextView searchResult, numRes;
+        public ImageButton shareBtn, favBtn;
 
         public SearchResultViewHolder(View view){
             super(view);
             searchResult = view.findViewById(R.id.search_result);
             shareBtn = view.findViewById(R.id.share_button);
             favBtn = view.findViewById(R.id.favourite_button);
+            numRes = view.findViewById(R.id.number_result);
 
             shareBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +62,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(SearchResultAdapter.SearchResultViewHolder holder, int position) {
         Result result = results.get(position);
+        int resPosition = position + 1;
+        String numOfResult = "#" + String.valueOf(resPosition);
         holder.searchResult.setText(result.getValue());
+        holder.numRes.setText(numOfResult);
     }
 
     @Override
@@ -74,4 +77,5 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         this.results = results;
         notifyDataSetChanged();
     }
+
 }

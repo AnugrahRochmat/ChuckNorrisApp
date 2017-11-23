@@ -106,7 +106,7 @@ public class CategoriesFragment extends Fragment {
 
     // initialize recycler view
     public void init(){
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 

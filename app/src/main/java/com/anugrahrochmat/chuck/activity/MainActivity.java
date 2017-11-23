@@ -20,6 +20,7 @@ import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.fragment.CategoriesFragment;
 import com.anugrahrochmat.chuck.fragment.HomeFragment;
 import com.anugrahrochmat.chuck.fragment.SearchFragment;
+import com.facebook.stetho.Stetho;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -87,6 +88,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
+
+        /**
+         * Stetho
+         */
+        // Create an InitializerBuilder
+        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(this);
+        // Enable Chrome DevTools
+        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this));
+        // Initialize Stetho with the Initializer
+        Stetho.initialize(initializerBuilder.build());
     }
 
     /***
@@ -273,4 +284,5 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

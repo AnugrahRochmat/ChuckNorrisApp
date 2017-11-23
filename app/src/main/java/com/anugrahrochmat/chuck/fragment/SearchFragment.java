@@ -200,6 +200,7 @@ public class SearchFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
 
         searchResultAdapter = new SearchResultAdapter(new ArrayList<Result>(), getContext());
         recyclerView.setAdapter(searchResultAdapter);
@@ -228,4 +229,5 @@ public class SearchFragment extends Fragment {
     private void showErrorMessage(){
         errorMessage.setVisibility(View.VISIBLE);
     }
+
 }

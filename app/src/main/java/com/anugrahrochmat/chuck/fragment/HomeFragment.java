@@ -1,11 +1,15 @@
 package com.anugrahrochmat.chuck.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +18,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.activity.MainActivity;
-import com.anugrahrochmat.chuck.model.RandomCategory;
+import com.anugrahrochmat.chuck.data.FactContract;
+import com.anugrahrochmat.chuck.model.Result;
 import com.anugrahrochmat.chuck.rest.ApiClient;
 import com.anugrahrochmat.chuck.rest.ApiInterface;
 
@@ -49,12 +52,14 @@ public class HomeFragment extends Fragment {
     TextView errorMessage;
 
     @BindView(R.id.generate_button)
-    Button generateButton;
+    FloatingActionButton generateButton;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private RandomCategory randomJoke;
+    private Result randomJoke;
     private String categoryName;
     private static final String DEF_TITLE = "Home";
+    private MenuItem favMenuItem;
+    private AsyncTask loadJokeTask;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,6 +85,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         if (getArguments() != null) {
             categoryName = getArguments().getString(CATEGORY_NAME);
             setUppercaseforTitleBar(categoryName);
@@ -91,11 +97,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.share_fav_menu, menu);
+        favMenuItem = menu.findItem(R.id.favourite_button);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.share_button:
                 // Share
@@ -108,8 +114,9 @@ public class HomeFragment extends Fragment {
                 break;
             case R.id.favourite_button:
                 // Favourite
-                item.setIcon(R.drawable.ic_favorite_black_24dp);
-                Toast.makeText(getActivity(), "Soon Favourite feature!", Toast.LENGTH_LONG).show();
+//                item.setIcon(R.drawable.ic_favorite_black_24dp);
+//                Toast.makeText(getActivity(), "Soon Favourite feature!", Toast.LENGTH_LONG).show();
+                updateFavourites();
             default:
                 break;
 
@@ -132,12 +139,14 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        loadRandomJoke();
+        //loadRandomJoke();
+        loadJokeTask = new fetchRandomJoke().execute();
 
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadRandomJoke();
+                // loadRandomJoke();
+                loadJokeTask = new fetchRandomJoke().execute();
             }
         });
     }
@@ -163,8 +172,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        loadJokeTask.cancel(true);
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -181,7 +192,10 @@ public class HomeFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class fetchRandomJoke extends AsyncTask<Void, Void, RandomCategory> {
+    /**
+     * Asyntask Fetching Random Joke
+     */
+    public class fetchRandomJoke extends AsyncTask<Void, Void, Result> {
 
         @Override
         protected void onPreExecute() {
@@ -191,9 +205,9 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected RandomCategory doInBackground(Void... voids) {
+        protected Result doInBackground(Void... voids) {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-            Call<RandomCategory> call = apiService.getRandomCategory(categoryName);
+            Call<Result> call = apiService.getRandomCategory(categoryName);
 
             try {
                 randomJoke = call.execute().body();
@@ -205,8 +219,9 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(RandomCategory randomJoke) {
+        protected void onPostExecute(Result randomJoke) {
             hideProgressbar();
+            changeIcon();
             showJoke();
             if (randomJoke != null){
                 randomJokeView.setText(randomJoke.getValue());
@@ -214,10 +229,6 @@ public class HomeFragment extends Fragment {
                 showErrorMessage();
             }
         }
-    }
-
-    private void loadRandomJoke(){
-        new fetchRandomJoke().execute();
     }
 
     private void showJoke() {
@@ -246,5 +257,96 @@ public class HomeFragment extends Fragment {
             text = String.valueOf(text.charAt(0)).toUpperCase() + text.subSequence(1, text.length());
         }
         ((MainActivity) getActivity()).setToolbarTitle(text);
+    }
+
+    /**
+     * updateFavourites method for click event
+     */
+    public void updateFavourites(){
+        if (!isFavourite()){
+            addFavourite();
+        } else {
+            removeFavourites();
+        }
+    }
+
+    /**
+     * changeIcon method
+     */
+    public void changeIcon() {
+        if (isFavourite()){
+            favMenuItem.setIcon(R.drawable.ic_favorite_black_24dp);
+        } else {
+            favMenuItem.setIcon(R.drawable.ic_favorite_border_black_24dp);
+        }
+    }
+
+    /**
+     * isFavourite method
+     */
+    public boolean isFavourite(){
+        Uri uri = FactContract.FactEntry.CONTENT_URI.buildUpon().appendEncodedPath(randomJoke.getId()).build();
+        Cursor cursor = getActivity().getContentResolver().query(uri,
+                null,
+                FactContract.FactEntry.COLUMN_FACT_ID + " = ? ",
+                null,
+                null
+        );
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
+            return true;
+        } else {
+            cursor.close();
+            return false;
+        }
+    }
+
+    /**
+     * addFavourite Method
+     */
+    @SuppressLint("StaticFieldLeak")
+    public void addFavourite(){
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+                if (!isFavourite()) {
+                    ContentValues contentValues = new ContentValues();
+
+                    contentValues.put(FactContract.FactEntry.COLUMN_FACT_ID, randomJoke.getId());
+                    contentValues.put(FactContract.FactEntry.COLUMN_FACT_URL, randomJoke.getUrl());
+                    contentValues.put(FactContract.FactEntry.COLUMN_FACT_VALUE, randomJoke.getValue());
+
+                    getActivity().getContentResolver().insert(FactContract.FactEntry.CONTENT_URI, contentValues);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                changeIcon();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    /**
+     * removeFavourites Method
+     */
+    @SuppressLint("StaticFieldLeak")
+    public void removeFavourites(){
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                if (isFavourite()) {
+                    Uri uri = FactContract.FactEntry.CONTENT_URI.buildUpon().appendEncodedPath(randomJoke.getId()).build();
+                    getActivity().getContentResolver().delete(uri, null, null);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                changeIcon();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

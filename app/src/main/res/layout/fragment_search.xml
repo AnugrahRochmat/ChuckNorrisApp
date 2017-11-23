@@ -16,7 +16,10 @@
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_padding_16"
+                android:layout_marginLeft="@dimen/margin_padding_16"
+                android:layout_marginRight="@dimen/margin_padding_16"
+                android:layout_marginTop="@dimen/margin_padding_8"
+                android:layout_marginBottom="@dimen/margin_padding_8"
                 android:orientation="horizontal">
 
                 <EditText

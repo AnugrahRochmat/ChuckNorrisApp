@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = MainActivity.class.getSimpleName();
     private Result randomJoke;
     private String categoryName;
-    private static final String DEF_TITLE = "Home";
+    private static final String DEF_TITLE = "Random";
     private MenuItem favMenuItem;
     private AsyncTask loadJokeTask;
 
@@ -119,7 +119,6 @@ public class HomeFragment extends Fragment {
                 updateFavourites();
             default:
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);

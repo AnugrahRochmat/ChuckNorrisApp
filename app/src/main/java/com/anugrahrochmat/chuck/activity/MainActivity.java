@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.fragment.CategoriesFragment;
+import com.anugrahrochmat.chuck.fragment.FavouritesFragment;
 import com.anugrahrochmat.chuck.fragment.HomeFragment;
 import com.anugrahrochmat.chuck.fragment.SearchFragment;
 import com.facebook.stetho.Stetho;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        CategoriesFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener{
+        CategoriesFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, FavouritesFragment.OnFragmentInteractionListener{
 
     private View navHeader;
     private ImageView imgProfile;
@@ -46,9 +47,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public static int navItemIndex = 0;
 
     // tags used to attach the fragments
-    private static final String TAG_HOME = "home";
+    private static final String TAG_HOME = "random";
     private static final String TAG_CATEGORIES = "categories";
     private static final String TAG_SEARCH = "search";
+    private static final String TAG_FAVOURITES = "favourites";
     public static String CURRENT_TAG = TAG_HOME;
 
     // toolbar titles respected to selected nav menu item
@@ -168,9 +170,14 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 CategoriesFragment categoriesFragment = new CategoriesFragment();
                 return categoriesFragment;
             case 2:
+                // favourites
+                FavouritesFragment favouritesFragment = new FavouritesFragment();
+                return favouritesFragment;
+            case 3:
                 // search
                 SearchFragment searchFragment = new SearchFragment();
                 return searchFragment;
+
             default:
                 return new HomeFragment();
         }
@@ -207,8 +214,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                         navItemIndex = 1;
                         CURRENT_TAG = TAG_CATEGORIES;
                         break;
-                    case R.id.nav_search:
+                    case R.id.nav_favourites:
                         navItemIndex = 2;
+                        CURRENT_TAG = TAG_FAVOURITES;
+                        break;
+                    case R.id.nav_search:
+                        navItemIndex = 3;
                         CURRENT_TAG = TAG_SEARCH;
                         break;
                     case R.id.nav_about_us:

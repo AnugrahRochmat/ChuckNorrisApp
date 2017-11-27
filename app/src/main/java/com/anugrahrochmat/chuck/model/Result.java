@@ -21,6 +21,15 @@ public class Result {
     @Expose
     private String value;
 
+    /**
+     * Movie class constructor
+     */
+    public Result(String id, String url, String value){
+        this.id = id;
+        this.url = url;
+        this.value = value;
+    }
+
     public Object getCategory() {
         return category;
     }

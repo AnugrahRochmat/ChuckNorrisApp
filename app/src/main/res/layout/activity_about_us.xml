@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size_18"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingBottom="@dimen/margin_padding_64"
                     android:text="@string/about_us" />
 
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size_18"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingBottom="@dimen/margin_padding_32"
                     android:autoLink="web"
                     android:linksClickable="true"
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size_18"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:autoLink="web"
                     android:linksClickable="true"
                     android:text="@string/api_name"/>

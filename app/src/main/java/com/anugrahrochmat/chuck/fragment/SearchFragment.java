@@ -111,7 +111,6 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

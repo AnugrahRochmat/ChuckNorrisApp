@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chuck Norris Jokes</string>
+    <string name="app_name">Chuck Norris Facts</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,12 +10,13 @@
     <string name="nav_home">Home</string>
     <string name="nav_categories">Categories</string>
     <string name="nav_search">Search</string>
-    <string name="nav_about_us">About Us</string>
+    <string name="nav_about_us">About</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
         <item>Categories</item>
+        <item>Favourites</item>
         <item>Search</item>
     </string-array>
 
@@ -30,8 +31,10 @@
     <string name="error_message">Cannot connect to the internet. Please check your internet connection.</string>
     <string name="about_us">Chuck Norris Facts has been developed by Anugrah Rochmat </string>
     <string name="source_code">Source Code: <a href="https://github.com/AnugrahRochmat/ChuckNorrisApp">https://github.com/AnugrahRochmat/ChuckNorrisApp</a></string>
-    <string name="source"></string>
     <string name="api_name">Api: <a href="https://api.chucknorris.io"> https://api.chucknorris.io</a> </string>
     <string name="share_jokes">Share Jokes</string>
     <string name="add_favourite">Add Favourite</string>
+    <string name="nav_favourites">Favourites</string>
+    <string name="nav_random">Random</string>
+    <string name="about">About</string>
 </resources>

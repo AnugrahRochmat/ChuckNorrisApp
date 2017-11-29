@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private void loadNavHeader() {
 
         // Loading profile image
-        Picasso.with(this).load(R.drawable.chuck_norris).into(imgProfile);
+        Picasso.with(this).load(R.mipmap.ic_launcher).into(imgProfile);
     }
 
     /***

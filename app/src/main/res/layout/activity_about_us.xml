@@ -28,7 +28,6 @@
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:paddingBottom="@dimen/margin_padding_64"
                     android:text="@string/about_us" />
 
                 <TextView
@@ -38,10 +37,10 @@
                     android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:paddingBottom="@dimen/margin_padding_32"
+                    android:paddingBottom="@dimen/margin_padding_64"
                     android:autoLink="web"
                     android:linksClickable="true"
-                    android:text="@string/source_code"/>
+                    android:text="@string/my_web"/>
 
                 <TextView
                     android:id="@+id/api_name"

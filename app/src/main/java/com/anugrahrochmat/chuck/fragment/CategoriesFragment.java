@@ -22,6 +22,7 @@ import com.anugrahrochmat.chuck.rest.ApiInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +30,7 @@ import butterknife.ButterKnife;
 public class CategoriesFragment extends Fragment {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SAVED_CATEGORIES = "SAVED_CATEGORIES";
 
     @BindView(R.id.categories_recycler_view)
     RecyclerView recyclerView;
@@ -62,13 +64,31 @@ public class CategoriesFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        init();
+
+        initRV();
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SAVED_CATEGORIES)) {
+                List<String> categoriesSaved = savedInstanceState.getStringArrayList(SAVED_CATEGORIES);
+                categoriesAdapter.setCategories(categoriesSaved);
+            }
+        } else {
+            new FetchCategoriesTask().execute();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ArrayList<String> categoriesSaved = new ArrayList<>(categoriesAdapter.getCategories());
+        if (categoriesSaved != null && !categoriesSaved.isEmpty()) {
+            outState.putStringArrayList(SAVED_CATEGORIES, categoriesSaved);
         }
     }
 
@@ -105,21 +125,19 @@ public class CategoriesFragment extends Fragment {
     }
 
     // initialize recycler view
-    public void init(){
+    public void initRV(){
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         categoriesAdapter = new CategoriesAdapter(new ArrayList<String>(), getContext());
         recyclerView.setAdapter(categoriesAdapter);
-
-        new FetchCategoriesTask().execute();
     }
 
     /**
      * FetchCategories from API
      */
-    public class FetchCategoriesTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    public class FetchCategoriesTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
         protected void onPreExecute() {
@@ -128,12 +146,12 @@ public class CategoriesFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<String> doInBackground(Void... voids) {
+        protected List<String> doInBackground(Void... voids) {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-            retrofit2.Call<ArrayList<String>> call = apiService.getCategoryList();
+            retrofit2.Call<List<String>> call = apiService.getCategoryList();
 
             try {
-                ArrayList<String> categories = call.execute().body();
+                List<String> categories = call.execute().body();
                 return categories;
             } catch (IOException e) {
                 Log.e(TAG, "A problem occured ", e);
@@ -142,7 +160,7 @@ public class CategoriesFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> categories) {
+        protected void onPostExecute(List<String> categories) {
             hideProgressbar();
             categoriesAdapter.setCategories(categories);
         }
@@ -155,4 +173,5 @@ public class CategoriesFragment extends Fragment {
     private void hideProgressbar(){
         progressBar.setVisibility(View.GONE);
     }
+
 }

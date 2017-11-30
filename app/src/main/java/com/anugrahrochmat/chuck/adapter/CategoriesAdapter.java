@@ -12,11 +12,11 @@ import com.anugrahrochmat.chuck.R;
 import com.anugrahrochmat.chuck.fragment.HomeFragment;
 import com.anugrahrochmat.chuck.view.CapitalizedTextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder> {
 
-    private ArrayList<String> categories;
+    private List<String> categories;
     private Context context;
 
     public class CategoriesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -39,7 +39,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         }
     }
 
-    public CategoriesAdapter(ArrayList<String> categories, Context context){
+    public CategoriesAdapter(List<String>  categories, Context context){
         this.categories = categories;
         this.context = context;
     }
@@ -56,8 +56,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     @Override
     public void onBindViewHolder(final CategoriesViewHolder holder, final int position) {
-        String Category = categories.get(position);
-        holder.catName.setText(Category);
+        String category = categories.get(position);
+        holder.catName.setText(category);
     }
 
     @Override
@@ -65,9 +65,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         return categories.size();
     }
 
-    public void setCategories(ArrayList<String> categories){
+    public void setCategories(List<String> categories){
         this.categories = categories;
         notifyDataSetChanged();
+    }
+
+    public List<String> getCategories() {
+        return categories;
     }
 
 }

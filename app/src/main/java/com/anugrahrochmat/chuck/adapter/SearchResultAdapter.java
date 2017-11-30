@@ -102,6 +102,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         notifyDataSetChanged();
     }
 
+    public List<Result> getResults() {
+        return results;
+    }
+
     /**
      * updateFavourites method for click event
      */

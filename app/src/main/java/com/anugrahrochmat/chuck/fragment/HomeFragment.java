@@ -39,6 +39,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String CATEGORY_NAME = "CATEGORY_NAME";
+    private static final String SAVED_FACTS = "FACTS";
 
     private OnFragmentInteractionListener mListener;
 
@@ -138,8 +139,13 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //loadRandomJoke();
-        loadJokeTask = new fetchRandomJoke().execute();
+        if (savedInstanceState != null) {
+            randomJoke = savedInstanceState.getParcelable(SAVED_FACTS);
+            randomJokeView.setText(randomJoke.getValue());
+        } else {
+            //loadRandomJoke();
+            loadJokeTask = new fetchRandomJoke().execute();
+        }
 
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +154,12 @@ public class HomeFragment extends Fragment {
                 loadJokeTask = new fetchRandomJoke().execute();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SAVED_FACTS, randomJoke);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

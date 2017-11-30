@@ -40,6 +40,7 @@ import retrofit2.Call;
 public class SearchFragment extends Fragment {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SAVED_SEARCH_RESULT = "SAVED_SEARCH_RESULT";
 
     @BindView(R.id.search_result_recycler_view)
     RecyclerView recyclerView;
@@ -84,18 +85,26 @@ public class SearchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initRV();
 
-        // Handle Search Button CLick listener
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Check search query empty string or not
-                if (searchQuery.getText().toString().trim().isEmpty()){
-                    Toast.makeText(getContext(), "Insert query to search", Toast.LENGTH_SHORT).show();
-                }else{
-                    loadSearchResult(searchQuery.getText().toString());
-                }
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(SAVED_SEARCH_RESULT)) {
+                List<Result> resultsSaved = savedInstanceState.getParcelableArrayList(SAVED_SEARCH_RESULT);
+                searchResultAdapter.setResults(resultsSaved);
             }
-        });
+        } else {
+            // Handle Search Button CLick listener
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Check search query empty string or not
+                    if (searchQuery.getText().toString().trim().isEmpty()){
+                        Toast.makeText(getContext(), "Insert query to search", Toast.LENGTH_SHORT).show();
+                    }else{
+                        loadSearchResult(searchQuery.getText().toString());
+                    }
+                }
+            });
+        }
+
 
         // Handle search query enter pressed equal to button being clicked
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -111,6 +120,15 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ArrayList<Result> resultsSaved = new ArrayList<>(searchResultAdapter.getResults());
+        if (resultsSaved != null && !resultsSaved.isEmpty()) {
+            outState.putParcelableArrayList(SAVED_SEARCH_RESULT, resultsSaved);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

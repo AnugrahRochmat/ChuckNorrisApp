@@ -4,4 +4,4 @@ While i'm still learning and keen to improve my skill as an Android Developer so
 
 The idea is i'm trying to utilize all the thing that i can get from this API and added some simple feature into this app.
 
-You can check this app in play store here: https://play.google.com/store/apps/details?id=com.anugrahrochmat.chuck&hl=en
+You can check this app in play store here: https://play.google.com/store/apps/details?id=com.anugrahrochmat.chuck

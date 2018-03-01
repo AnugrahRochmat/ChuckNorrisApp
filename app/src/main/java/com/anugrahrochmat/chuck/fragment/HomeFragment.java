@@ -27,6 +27,7 @@ import com.anugrahrochmat.chuck.data.FactContract;
 import com.anugrahrochmat.chuck.model.Result;
 import com.anugrahrochmat.chuck.rest.ApiClient;
 import com.anugrahrochmat.chuck.rest.ApiInterface;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
 
@@ -42,6 +43,10 @@ public class HomeFragment extends Fragment {
     private static final String SAVED_FACTS = "FACTS";
 
     private OnFragmentInteractionListener mListener;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private String btnNameFBA;
+    private String catNameFBA;
 
     @BindView(R.id.random_joke)
     TextView randomJokeView;
@@ -89,8 +94,10 @@ public class HomeFragment extends Fragment {
         setRetainInstance(true);
         if (getArguments() != null) {
             categoryName = getArguments().getString(CATEGORY_NAME);
+            catNameFBA = categoryName;
             setUppercaseforTitleBar(categoryName);
         } else {
+            catNameFBA = DEF_TITLE;
             setUppercaseforTitleBar(DEF_TITLE);
         }
     }
@@ -103,8 +110,20 @@ public class HomeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Bundle params = new Bundle();
+        params.putInt("ButtonID", item.getItemId());
+        params.putString("CategoryName", catNameFBA);
+
         switch (item.getItemId()) {
             case R.id.share_button:
+                // Firebase Analytics Share Button CLicked
+                btnNameFBA = "ShareButtonClick";
+                Log.d(TAG, "Category Name: " + catNameFBA);
+                Log.d(TAG, "Button Clicked: " + btnNameFBA);
+
+                mFirebaseAnalytics.logEvent(btnNameFBA, params);
+                mFirebaseAnalytics.setUserProperty("FavouriteCategory", catNameFBA);
+
                 // Share
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -114,6 +133,14 @@ public class HomeFragment extends Fragment {
                 startActivity(Intent.createChooser(shareIntent, "Share This With..."));
                 break;
             case R.id.favourite_button:
+                // Firebase Analytics Favourite Button CLicked
+                btnNameFBA = "FavouriteButtonClick";
+                Log.d(TAG, "Category Name: " + catNameFBA);
+                Log.d(TAG, "Button Clicked: " + btnNameFBA);
+
+                mFirebaseAnalytics.logEvent(btnNameFBA, params);
+                mFirebaseAnalytics.setUserProperty("FavouriteCategory", catNameFBA);
+
                 // Favourite
 //                item.setIcon(R.drawable.ic_favorite_black_24dp);
 //                Toast.makeText(getActivity(), "Soon Favourite feature!", Toast.LENGTH_LONG).show();
@@ -126,8 +153,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
@@ -138,6 +164,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         if (savedInstanceState != null) {
             randomJoke = savedInstanceState.getParcelable(SAVED_FACTS);
@@ -150,6 +179,18 @@ public class HomeFragment extends Fragment {
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Firebase Analytics Generate Button CLicked
+                Bundle params = new Bundle();
+                params.putInt("ButtonID", view.getId());
+                params.putString("CategoryName", catNameFBA);
+
+                btnNameFBA = "GenerateButtonClick";
+                Log.d(TAG, "Category Name: " + catNameFBA);
+                Log.d(TAG, "Button Clicked: " + btnNameFBA);
+
+                mFirebaseAnalytics.logEvent(btnNameFBA, params);
+                mFirebaseAnalytics.setUserProperty("FavouriteCategory", catNameFBA);
+
                 // loadRandomJoke();
                 loadJokeTask = new fetchRandomJoke().execute();
             }

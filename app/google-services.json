@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "939653536875",
+    "firebase_url": "https://chucknorrisfacts-faed6.firebaseio.com",
+    "project_id": "chucknorrisfacts-faed6",
+    "storage_bucket": "chucknorrisfacts-faed6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939653536875:android:174b66a3bf03b6c4",
+        "android_client_info": {
+          "package_name": "com.anugrahrochmat.chuck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "939653536875-5olm4e7qh9f9uad6lq2tj7ssu0ft3dmm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anugrahrochmat.chuck",
+            "certificate_hash": "a6ee47f1f00a4188ee81a557437064bb0f0fcdc3"
+          }
+        },
+        {
+          "client_id": "939653536875-tqehiho6etqa1b2rg95jc9scu32hpbh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA31f6FxiTkr7nSJ4ACuer2kd14ZsbexMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "939653536875-tqehiho6etqa1b2rg95jc9scu32hpbh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
